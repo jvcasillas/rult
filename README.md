@@ -1,12 +1,6 @@
----
-output: github_document
----
-
-```{r echo=FALSE}
-library(knitr)
-```
 
 <!-- badges: start -->
+
 [![R-CMD-check](https://github.com/jvcasillas/rult/workflows/R-CMD-check/badge.svg)](https://github.com/jvcasillas/rult/actions)  
 [![CodeFactor](https://www.codefactor.io/repository/github/jvcasillas/rult/badge)](https://www.codefactor.io/repository/github/jvcasillas/rult)
 <!-- badges: end -->
@@ -14,51 +8,47 @@ library(knitr)
 ## rult <img src='https://raw.githubusercontent.com/jvcasillas/hex_stickers/master/stickers/rult.png' align='right' width='275px'/>
 
 A simple interface to RU lexTALE data  
-Last update: `r Sys.Date()`
+Last update: 2023-09-12
 
 ### Overview
 
-Use this package to interface with the `lextale_ru` repo and download data  
+Use this package to interface with the `lextale_ru` repo and download
+data  
 from specific terms or courses.
 
 ### Installation
 
 You can install the development version from GitHub with:
 
-```
-install.packages("devtools")
-devtools::install_github("jvcasillas/rult")
-```
+    install.packages("devtools")
+    devtools::install_github("jvcasillas/rult")
 
 ### Use
 
-Use the `download_lextale_data()` function to get data from the server. 
-By default, the function will download a `lextale` folder to the working directory of your R session: 
+Use the `download_lextale_data()` function to get data from the server.
+By default, the function will download a `lextale` folder to the working
+directory of your R session:
 
-```{r}
-#| label: ex-1
-#| eval: false
+``` r
 library("rult")
 download_lextale_data()
 ```
 
-If you would like to download the data to a specific location in your working directory, you can use the `destination` argument: 
+If you would like to download the data to a specific location in your
+working directory, you can use the `destination` argument:
 
-```{r}
-#| label: ex-2
-#| eval: false
+``` r
 library("rult")
 download_lextale_data(
   destination = "data"
 )
 ```
 
-You can use the `apply_filter` argument to select a subset of the data on the server. 
-For example, if you only want the data from Fall 2023, you would use the following code: 
+You can use the `apply_filter` argument to select a subset of the data
+on the server. For example, if you only want the data from Fall 2023,
+you would use the following code:
 
-```{r}
-#| label: ex-3
-#| eval: false
+``` r
 library("rult")
 download_lextale_data(
   destination = "data", 
@@ -66,13 +56,13 @@ download_lextale_data(
 )
 ```
 
-Note that the term *must* be specified as with "fa", "sp" or "su" following by an underscore, i.e., `_`, and then the year, e.g., "sp_2024", "su_2023", etc. 
+Note that the term *must* be specified as with “fa”, “sp” or “su”
+following by an underscore, i.e., `_`, and then the year, e.g.,
+“sp_2024”, “su_2023”, etc.
 
-It is also possible to filter by course: 
+It is also possible to filter by course:
 
-```{r}
-#| label: ex-4
-#| eval: false
+``` r
 library("rult")
 download_lextale_data(
   destination = "data", 
@@ -80,7 +70,7 @@ download_lextale_data(
 )
 ```
 
-Here is a full list of course options: 
+Here is a full list of course options:
 
 - 940:101 Elementary Spanish I
 - 940:102 Elementary Spanish II
@@ -132,7 +122,7 @@ Here is a full list of course options:
 - 940:488 Topics in Spanish Linguistics
 - 940:489-492 Tpics in Hispanic Literature and Culture
 - 940:491 Civilization of Spanish America
-- 940:491/597 - Hispanic Women's Voices
+- 940:491/597 - Hispanic Women’s Voices
 - 940:493/494 Independent Study
 - 940:499 Oral Proficiency Interview
 - 940:589 Topics in Hispanic Linguistics
