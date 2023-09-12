@@ -2,7 +2,7 @@
 #'
 #' This function will download lexTALE data from the `lextale_ru` repo.
 #'
-#' @param download_lextale_data A function downloading lexTALE data
+#' @param password A password to access the server
 #' @param destination Where to download the data (defaults to working directory)
 #' @param apply_filter A conditional expression to subset the dataset
 #' @keywords download
@@ -23,6 +23,7 @@
 
 
 download_lextale_data <- function(
+    password = NULL,
     destination = NULL,
     apply_filter = NULL
 ) {
@@ -35,6 +36,10 @@ download_lextale_data <- function(
     dest_path <- here()
   } else {
     dest_path <- glue("{here({destination})}")
+  }
+
+  if (password != "rulextale_2023") {
+    stop("You entered an invalid password.")
   }
 
   message(glue("Checking for {destination} directory"))

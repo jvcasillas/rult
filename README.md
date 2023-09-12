@@ -1,9 +1,8 @@
 
-<!-- badges: start -->
-
+<!-- badges: start
 [![R-CMD-check](https://github.com/jvcasillas/rult/workflows/R-CMD-check/badge.svg)](https://github.com/jvcasillas/rult/actions)  
 [![CodeFactor](https://www.codefactor.io/repository/github/jvcasillas/rult/badge)](https://www.codefactor.io/repository/github/jvcasillas/rult)
-<!-- badges: end -->
+badges: end -->
 
 ## rult <img src='https://raw.githubusercontent.com/jvcasillas/hex_stickers/master/stickers/rult.png' align='right' width='275px'/>
 

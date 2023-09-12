@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Joseph Casillas \email{joseph.casillas@rutgers.edu} (\href{https://orcid.org/0000-0001-8735-9910}{ORCID})
+\strong{Maintainer}: Joseph V. Casillas \email{joseph.casillas@rutgers.edu} (\href{https://orcid.org/0000-0001-8735-9910}{ORCID})
 
 }
 \keyword{internal}

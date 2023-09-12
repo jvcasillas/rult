@@ -4,14 +4,14 @@
 \alias{download_lextale_data}
 \title{A function to interact with gitlab}
 \usage{
-download_lextale_data(destination = NULL, apply_filter = NULL)
+download_lextale_data(password = NULL, destination = NULL, apply_filter = NULL)
 }
 \arguments{
+\item{password}{A password to access the server}
+
 \item{destination}{Where to download the data (defaults to working directory)}
 
 \item{apply_filter}{A conditional expression to subset the dataset}
-
-\item{download_lextale_data}{A function downloading lexTALE data}
 }
 \description{
 This function will download lexTALE data from the \code{lextale_ru} repo.

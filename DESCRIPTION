@@ -3,7 +3,7 @@ Type: Package
 Title: A simple interface to RU lexTALE data
 Version: 0.1.0
 Authors@R: 
-    person(given = "Joseph",
+    person(given = "Joseph V.",
            family = "Casillas",
            role = c("aut", "cre"),
            email = "joseph.casillas@rutgers.edu",
