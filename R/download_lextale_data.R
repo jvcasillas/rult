@@ -215,11 +215,12 @@ download_lextale_data <- function(
   message("Deleting temp directory")
   dir_delete(glue("{dest_path}/lextale/temp"))
 
-  message(c(
-    "Finished.  ",
-    glue("{length(data_files_to_keep)} files moved to {dest_path}/lextale/raw"),
-    glue("Tidy, unscored datafile moved to {dest_path}/lextale/tidy")
-  )
+  message(
+    c(
+      "Finished.  ",
+      glue("{length(data_files_to_keep)} files moved to {dest_path}/lextale/raw"),
+      glue("Tidy, unscored datafile moved to {dest_path}/lextale/tidy")
+    )
   )
 
 }
