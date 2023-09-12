@@ -15,6 +15,7 @@
 #' @import stringr
 #' @import glue
 #' @import lubridate
+#' @importFrom janitor clean_names
 #' @importFrom rlang .data
 #' @importFrom stats time
 #' @importFrom utils download.file unzip
@@ -101,7 +102,7 @@ download_lextale_data <- function(
   data_files_to_keep_tib <-
     dir_ls(path = glue("{dest_path}/lextale/temp"), regexp = ".csv") |>
     as_tibble() |>
-    filter(!(value %in% c(
+    filter(!(.data$value %in% c(
       here("data", "raw", "temp", "lextale_instructions_text.csv"),
       here("data", "raw", "temp", "lextale_practice_trials.csv"),
       here("data", "raw", "temp", "lextale_trials.csv")
@@ -109,8 +110,8 @@ download_lextale_data <- function(
     )
     ) |>
     transmute(
-      full_path = value,
-      path = str_remove_all(value, glue("{dest_path}/lextale/temp/")),
+      full_path = .data$value,
+      path = str_remove_all(.data$value, glue("{dest_path}/lextale/temp/")),
     ) |>
     separate(path, into = c("ruid", "trash1"), sep = "_lextale_ru_", remove = F) |>
     separate(path, into = c("trash2", "date"), sep = "_ru_", remove = F) |>
@@ -119,12 +120,12 @@ download_lextale_data <- function(
       date = ymd(date),
       time = str_remove_all(time, ".csv")
     ) |>
-    select(ruid, date, time, path, full_path) |>
-    filter(!(ruid %in% c("PARTICIPANT", "")))
+    select(.data$ruid, date, time, path, .data$full_path) |>
+    filter(!(.data$ruid %in% c("PARTICIPANT", "")))
 
   # Load data_files_to_keep, subset if necessary, then move delete unwanted files
-  hold <<- read_csv(data_files_to_keep_tib$full_path) |>
-    rename(ruid = `RUID*`, email = `email*`, course = `course*`) |>
+  hold <- read_csv(data_files_to_keep_tib$full_path) |>
+    clean_names() |>
     separate(date, into = c("date", "time"), sep = "_") |>
     separate(date, into = c("year", "month", "day"), sep = "-", remove = F) |>
     mutate(
@@ -141,24 +142,24 @@ download_lextale_data <- function(
   if (!is.null(apply_filter)) {
     ids_to_keep <- hold |>
       filter(!!rlang::parse_expr(apply_filter)) |>
-      pull(ruid) |>
+      pull(.data$ruid) |>
       unique()
   } else {
     ids_to_keep <- hold |>
-      pull(ruid) |>
+      pull(.data$ruid) |>
       unique()
   }
 
   # Get vector of files paths for files to keep
   data_files_to_keep <- data_files_to_keep_tib |>
-    filter(ruid %in% ids_to_keep) |>
-    pull(full_path)
+    filter(.data$ruid %in% ids_to_keep) |>
+    pull(.data$full_path)
 
   # Tidy lextale data
   tidy_lt <- hold |>
     filter(
-      ruid %in% ids_to_keep,
-      !is.na(lextale_trial_loop.thisRepN)
+      .data$ruid %in% ids_to_keep,
+      !is.na(.data$lextale_trial_loop_this_rep_n)
     ) |>
     separate(date, into = c("year", "month", "day"), sep = "-", remove = F) |>
     mutate(
@@ -172,14 +173,14 @@ download_lextale_data <- function(
     ) |>
     select(-c("month", "day", "year", "time")) |>
     select(
-      ruid:date,
-      term,
-      expName:frameRate,
-      trial_n = lextale_trial_loop.thisTrialN,
-      word:correct_response,
-      participant_response = key_resp_lextale_trial.keys,
-      is_correct = key_resp_lextale_trial.corr,
-      rt = key_resp_lextale_trial.rt,
+      .data$ruid:date,
+      .data$term,
+      .data$exp_name:.data$frame_rate,
+      trial_n = .data$lextale_trial_loop_this_trial_n,
+      word:.data$correct_response,
+      participant_response = .data$key_resp_lextale_trial_keys,
+      is_correct = .data$key_resp_lextale_trial_corr,
+      rt = .data$key_resp_lextale_trial_rt,
     ) |>
     write_csv(file = glue("{dest_path}/lextale/tidy/lextale_tidy_unscored.csv"))
 

@@ -31,7 +31,8 @@ Imports:
     glue, 
     lubridate, 
     stats, 
-    utils
+    utils, 
+    janitor
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
