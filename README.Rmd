@@ -1,0 +1,31 @@
+---
+output: github_document
+---
+
+```{r echo=FALSE}
+library(knitr)
+```
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/jvcasillas/rult/workflows/R-CMD-check/badge.svg)](https://github.com/jvcasillas/rult/actions)  
+[![CodeFactor](https://www.codefactor.io/repository/github/jvcasillas/rult/badge)](https://www.codefactor.io/repository/github/jvcasillas/rult)
+<!-- badges: end -->
+
+## rult <img src='https://raw.githubusercontent.com/jvcasillas/hex_stickers/master/stickers/ds4ling.png' align='right' width='275px'/>
+
+An R package of for downloading lexTALE data.
+
+Last update: `r Sys.Date()`
+
+### Overview
+
+The purpose of this package is to provide functions that can be used to download LexTALE data. 
+
+### Installation
+
+You can install the development version from GitHub with:
+
+```
+install.packages("devtools")
+devtools::install_github("jvcasillas/rult")
+```

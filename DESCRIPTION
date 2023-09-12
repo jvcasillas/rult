@@ -1,0 +1,37 @@
+Package: rult
+Type: Package
+Title: A simple interface to RU lexTALE data
+Version: 0.1.0
+Authors@R: 
+    person(given = "Joseph",
+           family = "Casillas",
+           role = c("aut", "cre"),
+           email = "joseph.casillas@rutgers.edu",
+           comment = c(ORCID = "0000-0001-8735-9910"))
+Maintainer: Joseph V. Casillas <joseph.casillas@rutgers.edu>
+Description: Use this package to interface with the lextale_ru repo and download data from specific terms or courses.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+URL: https://github.com/jvcasillas/rult
+BugReports: https://github.com/jvcasillas/rult/issues
+Depends:
+    R (>= 4.3)
+Imports:
+    dplyr,
+    rlang, 
+    tidyr, 
+    forcats, 
+    fs, 
+    readr, 
+    here, 
+    stringr, 
+    glue, 
+    lubridate, 
+    stats, 
+    utils
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
