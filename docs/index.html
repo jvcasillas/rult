@@ -65,13 +65,13 @@
 <div class="section level2">
 <h2 id="rult-">rult <img src="https://raw.githubusercontent.com/jvcasillas/hex_stickers/master/stickers/rult.png" align="right" width="275px"><a class="anchor" aria-label="anchor" href="#rult-"></a>
 </h2>
-<p>A simple interface to RU lexTALE data<br>
-Last update: 2023-09-12</p>
+<p>A simple interface to to download RU lexTALE data.<br>
+Last update: 2023-09-13</p>
 <div class="section level3">
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
 <p>Use this package to interface with the <code>lextale_ru</code> repo and download data<br>
-from specific terms or courses.</p>
+from the server.</p>
 </div>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -83,7 +83,10 @@ from specific terms or courses.</p>
 <div class="section level3">
 <h3 id="use">Use<a class="anchor" aria-label="anchor" href="#use"></a>
 </h3>
-<p>Use the <code><a href="reference/download_lextale_data.html">download_lextale_data()</a></code> function to get data from the server. By default, the function will download a <code>lextale</code> folder to the working directory of your R session:</p>
+<div class="section level4">
+<h4 id="basics">Basics<a class="anchor" aria-label="anchor" href="#basics"></a>
+</h4>
+<p>Use the <code><a href="reference/download_lextale_data.html">download_lextale_data()</a></code> function to get data from the server. You will be prompted to enter a password. Get in touch with the maintainer if you need a password. By default, the function will create a <code>lextale</code> folder in the working directory of your R session:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/jvcasillas/rult" class="external-link">"rult"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/download_lextale_data.html">download_lextale_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -93,79 +96,99 @@ from specific terms or courses.</p>
 <span><span class="fu"><a href="reference/download_lextale_data.html">download_lextale_data</a></span><span class="op">(</span></span>
 <span>  destination <span class="op">=</span> <span class="st">"data"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>You can use the <code>apply_filter</code> argument to select a subset of the data on the server. For example, if you only want the data from Fall 2023, you would use the following code:</p>
+<p>In the example above, the <code>lextale</code> folder will be created inside <code>data</code>, which exists in the root directory.</p>
+</div>
+<div class="section level4">
+<h4 id="filtering-data">Filtering data<a class="anchor" aria-label="anchor" href="#filtering-data"></a>
+</h4>
+<p>You can use the <code>apply_filter</code> argument to select a subset of the data on the server. For example, if you only want data from 2023, you would use the following code:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/jvcasillas/rult" class="external-link">"rult"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/download_lextale_data.html">download_lextale_data</a></span><span class="op">(</span></span>
 <span>  destination <span class="op">=</span> <span class="st">"data"</span>, </span>
-<span>  apply_filter <span class="op">=</span> <span class="st">"term == 'fa_2023'"</span></span>
+<span>  apply_filter <span class="op">=</span> <span class="st">"year == '2023'"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Note that the term <em>must</em> be specified as with “fa”, “sp” or “su” following by an underscore, i.e., <code>_</code>, and then the year, e.g., “sp_2024”, “su_2023”, etc.</p>
-<p>It is also possible to filter by course:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/jvcasillas/rult" class="external-link">"rult"</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/download_lextale_data.html">download_lextale_data</a></span><span class="op">(</span></span>
-<span>  destination <span class="op">=</span> <span class="st">"data"</span>, </span>
-<span>  apply_filter <span class="op">=</span> <span class="st">"course = '940:132 Intermediate Spanish'"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>Here is a full list of course options:</p>
+<p>You can filter the data using the following variables:</p>
 <ul>
-<li>940:101 Elementary Spanish I</li>
-<li>940:102 Elementary Spanish II</li>
-<li>940:121 Spanish Review and Continuation</li>
-<li>940:131 Intermediate Spanish</li>
-<li>940:132 Intermediate Spanish</li>
-<li>940:160 Spanish in the World</li>
-<li>940:201 Spanish for Heritage Speakers II</li>
-<li>940:202 Culture and Composition for Heritage Speakers</li>
-<li>940:203 Spanish Conversation and Composition</li>
-<li>940:204 Culture and Composition</li>
-<li>940:205 Spanish for the Health Professions</li>
-<li>940:206 Spanish for Business I</li>
-<li>940:215 Introduction to Hispanic Literature</li>
-<li>940:225 Spanish for the Health Professions II</li>
-<li>940:250 Sports in Latin America and the Caribbean</li>
-<li>940:261 Introduction to the Study of Language</li>
-<li>940:313 Advanced Spanish Conversation and Contemporary Issues</li>
-<li>940:325 Advanced Grammar and Composition</li>
-<li>940:326 Advanced Composition and Introduction to Translation Studies</li>
-<li>940:331 Literature &amp; Culture of the Hispanic Culture</li>
-<li>940:332 Literature &amp; Culture of the Hispanic Caribbean</li>
-<li>940:333 Power &amp; Nation-Building in Spanish America</li>
-<li>940:334 Modernity and New Identities in Spanish America</li>
-<li>940:335 Literature &amp; Culture of Spain</li>
-<li>940:336 Literature &amp; Culture of Spain</li>
-<li>940:342 Women Writers of the Hispanic World</li>
-<li>940:346 Spanish Film</li>
-<li>940:348 Latin American Cinema</li>
-<li>940:353 Spanish for Community Engagement</li>
-<li>940:360 Spanish for Commerce</li>
-<li>940:362 Spanish Phonetics and Phonology</li>
-<li>940:363 Bilingualism in the Spanish-Speaking World</li>
-<li>940:364 Contrastive Analysis in Spanish and English</li>
-<li>940:366 Methods of Teaching Spanish K-12</li>
-<li>940:367 Sociolinguistics in the Spanish-Speaking World</li>
-<li>940:368 The Bilingual Mind</li>
-<li>940:389 Spanish Lab for Oral Proficiency I</li>
-<li>940:390 Topics in Hispanic Literature and Culture</li>
-<li>940:402 Intro to Translation of Specialized Texts</li>
-<li>940:403/4 Civilization of Spanish America</li>
-<li>940:405/6 Civilization of Spain</li>
-<li>940:419 Dialectology of the Spanish-Speaking World</li>
-<li>940:450 Spanish-American Theater</li>
-<li>940:462 Environment and Literature in Hispanic Culture</li>
-<li>940:471 Internship in Translation &amp; Interpreting</li>
-<li>940:477 Court Interpreting</li>
-<li>940:479 Translation Media and Technology</li>
-<li>940:488 Topics in Spanish Linguistics</li>
-<li>940:489-492 Tpics in Hispanic Literature and Culture</li>
-<li>940:491 Civilization of Spanish America</li>
-<li>940:491/597 - Hispanic Women’s Voices</li>
-<li>940:493/494 Independent Study</li>
-<li>940:499 Oral Proficiency Interview</li>
-<li>940:589 Topics in Hispanic Linguistics</li>
-<li>Graduate</li>
+<li>
+<strong>ruid</strong>: A character vector containing RU ids, e.g., ‘01234567’</li>
+<li>
+<strong>course</strong>: A character vector containing SpanPort classes, e.g., ‘span102’ (see below)</li>
+<li>
+<strong>term</strong>: A character vector containing a term (‘fall’, ‘spring’, ‘summer’)</li>
+<li>
+<strong>modality</strong>: A character vector containing the modality (‘in-person’, ‘online’, ‘hybrid’)</li>
+<li>
+<strong>session</strong>: A character vector containing the session (‘beginning-of-semester’, ‘end-of-semester’)</li>
+<li>
+<strong>instructor</strong>: A character vector containing the instructors last name, e.g., ‘casillas’</li>
 </ul>
+<p><em>Note</em>: Filtering options work the same as standard control structures in R, e.g., <code>"term == 'fall' &amp; year == '2023'"</code>. Here is a full list of course options:</p>
+<ul>
+<li>span101</li>
+<li>span102</li>
+<li>span121</li>
+<li>span131</li>
+<li>span132</li>
+<li>span160</li>
+<li>span201</li>
+<li>span202</li>
+<li>span203</li>
+<li>span204</li>
+<li>span205</li>
+<li>span206</li>
+<li>span215</li>
+<li>span225</li>
+<li>span250</li>
+<li>span261</li>
+<li>span313</li>
+<li>span325</li>
+<li>span326</li>
+<li>span331</li>
+<li>span332</li>
+<li>span333</li>
+<li>span334</li>
+<li>span335</li>
+<li>span336</li>
+<li>span342</li>
+<li>span346</li>
+<li>span348</li>
+<li>span353</li>
+<li>span360</li>
+<li>span362</li>
+<li>span363</li>
+<li>span364</li>
+<li>span366</li>
+<li>span367</li>
+<li>span368</li>
+<li>span389</li>
+<li>span390</li>
+<li>span402</li>
+<li>span403</li>
+<li>span404</li>
+<li>span405</li>
+<li>span406</li>
+<li>span419</li>
+<li>span450</li>
+<li>span462</li>
+<li>span471</li>
+<li>span477</li>
+<li>span479</li>
+<li>span488</li>
+<li>span489</li>
+<li>span490</li>
+<li>span491</li>
+<li>span492</li>
+<li>span491</li>
+<li>span491</li>
+<li>span597</li>
+<li>span493</li>
+<li>span494</li>
+<li>span499</li>
+<li>span500</li>
+<li>graduate</li>
+</ul>
+</div>
 </div>
 </div>
   </div>

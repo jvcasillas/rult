@@ -2,7 +2,6 @@
 #'
 #' This function will download lexTALE data from the `lextale_ru` repo.
 #'
-#' @param password A password to access the server
 #' @param destination Where to download the data (defaults to working directory)
 #' @param apply_filter A conditional expression to subset the dataset
 #' @keywords download
@@ -23,10 +22,16 @@
 
 
 download_lextale_data <- function(
-    password = NULL,
     destination = NULL,
     apply_filter = NULL
 ) {
+
+  # Get password
+  pw <- readline(prompt = "Enter password: ")
+
+  if (pw != "rulextale_2023") {
+    stop("You entered an invalid password.")
+  }
 
   # URL to zip file
   url_lextale <- "https://gitlab.pavlovia.org/jvcasillas/lextale_ru/-/archive/master/lextale_ru-master.zip"
@@ -36,10 +41,6 @@ download_lextale_data <- function(
     dest_path <- here()
   } else {
     dest_path <- glue("{here({destination})}")
-  }
-
-  if (password != "rulextale_2023") {
-    stop("You entered an invalid password.")
   }
 
   message(glue("Checking for {destination} directory"))
@@ -108,49 +109,41 @@ download_lextale_data <- function(
     dir_ls(path = glue("{dest_path}/lextale/temp"), regexp = ".csv") |>
     as_tibble() |>
     filter(!(.data$value %in% c(
-      here("data", "raw", "temp", "lextale_instructions_text.csv"),
-      here("data", "raw", "temp", "lextale_practice_trials.csv"),
-      here("data", "raw", "temp", "lextale_trials.csv")
-    )
-    )
+        here("data", "raw", "temp", "lextale_instructions_text.csv"),
+        here("data", "raw", "temp", "lextale_practice_trials.csv"),
+        here("data", "raw", "temp", "lextale_trials.csv")
+        )
+      )
     ) |>
     transmute(
       full_path = .data$value,
       path = str_remove_all(.data$value, glue("{dest_path}/lextale/temp/")),
     ) |>
-    separate(path, into = c("ruid", "trash1"), sep = "_lextale_ru_", remove = F) |>
-    separate(path, into = c("trash2", "date"), sep = "_ru_", remove = F) |>
-    separate(date, into = c("date", "time"), sep = "_") |>
+    separate(
+      path,
+      into = c("ruid", "course", "term", "modality", "session", "instructor",
+               "date", "time"),
+      sep = "_"
+    ) |>
     mutate(
       date = ymd(date),
       time = str_remove_all(time, ".csv")
     ) |>
-    select(.data$ruid, date, time, path, .data$full_path) |>
+    separate(date, into = c("year", "month", "day"), sep = "-", remove = F) |>
     filter(!(.data$ruid %in% c("PARTICIPANT", "")))
 
   # Load data_files_to_keep, subset if necessary, then move delete unwanted files
   hold <- read_csv(data_files_to_keep_tib$full_path) |>
-    clean_names() |>
-    separate(date, into = c("date", "time"), sep = "_") |>
-    separate(date, into = c("year", "month", "day"), sep = "-", remove = F) |>
-    mutate(
-      month = as.numeric(month),
-      term = case_when(
-        month >= 1  & month <= 5  ~ "sp",
-        month >= 6  & month <= 8  ~ "su",
-        month >= 9  & month <= 12 ~ "fa"
-      ),
-      term = glue("{term}_{year}")
-    )
+    clean_names()
 
   # Apply filter if needed
   if (!is.null(apply_filter)) {
-    ids_to_keep <- hold |>
+    ids_to_keep <- data_files_to_keep_tib |>
       filter(!!rlang::parse_expr(apply_filter)) |>
       pull(.data$ruid) |>
       unique()
   } else {
-    ids_to_keep <- hold |>
+    ids_to_keep <- data_files_to_keep_tib |>
       pull(.data$ruid) |>
       unique()
   }
@@ -166,20 +159,8 @@ download_lextale_data <- function(
       .data$ruid %in% ids_to_keep,
       !is.na(.data$lextale_trial_loop_this_rep_n)
     ) |>
-    separate(date, into = c("year", "month", "day"), sep = "-", remove = F) |>
-    mutate(
-      month = as.numeric(month),
-      term = case_when(
-        month >= 1  & month <= 5  ~ "sp",
-        month >= 6  & month <= 8  ~ "su",
-        month >= 9  & month <= 12 ~ "fa"
-      ),
-      term = glue("{term}_{year}")
-    ) |>
-    select(-c("month", "day", "year", "time")) |>
     select(
       .data$ruid:date,
-      .data$term,
       .data$exp_name:.data$frame_rate,
       trial_n = .data$lextale_trial_loop_this_trial_n,
       word:.data$correct_response,

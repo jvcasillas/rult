@@ -6,14 +6,14 @@ badges: end -->
 
 ## rult <img src='https://raw.githubusercontent.com/jvcasillas/hex_stickers/master/stickers/rult.png' align='right' width='275px'/>
 
-A simple interface to RU lexTALE data  
-Last update: 2023-09-12
+A simple interface to to download RU lexTALE data.  
+Last update: 2023-09-13
 
 ### Overview
 
 Use this package to interface with the `lextale_ru` repo and download
 data  
-from specific terms or courses.
+from the server.
 
 ### Installation
 
@@ -24,9 +24,12 @@ You can install the development version from GitHub with:
 
 ### Use
 
+#### Basics
+
 Use the `download_lextale_data()` function to get data from the server.
-By default, the function will download a `lextale` folder to the working
-directory of your R session:
+You will be prompted to enter a password. Get in touch with the
+maintainer if you need a password. By default, the function will create
+a `lextale` folder in the working directory of your R session:
 
 ``` r
 library("rult")
@@ -43,86 +46,100 @@ download_lextale_data(
 )
 ```
 
+In the example above, the `lextale` folder will be created inside
+`data`, which exists in the root directory.
+
+#### Filtering data
+
 You can use the `apply_filter` argument to select a subset of the data
-on the server. For example, if you only want the data from Fall 2023,
-you would use the following code:
+on the server. For example, if you only want data from 2023, you would
+use the following code:
 
 ``` r
 library("rult")
 download_lextale_data(
   destination = "data", 
-  apply_filter = "term == 'fa_2023'"
+  apply_filter = "year == '2023'"
 )
 ```
 
-Note that the term *must* be specified as with “fa”, “sp” or “su”
-following by an underscore, i.e., `_`, and then the year, e.g.,
-“sp_2024”, “su_2023”, etc.
+You can filter the data using the following variables:
 
-It is also possible to filter by course:
+- **ruid**: A character vector containing RU ids, e.g., ‘01234567’
+- **course**: A character vector containing SpanPort classes, e.g.,
+  ‘span102’ (see below)
+- **term**: A character vector containing a term (‘fall’, ‘spring’,
+  ‘summer’)
+- **modality**: A character vector containing the modality (‘in-person’,
+  ‘online’, ‘hybrid’)
+- **session**: A character vector containing the session
+  (‘beginning-of-semester’, ‘end-of-semester’)
+- **instructor**: A character vector containing the instructors last
+  name, e.g., ‘casillas’
 
-``` r
-library("rult")
-download_lextale_data(
-  destination = "data", 
-  apply_filter = "course = '940:132 Intermediate Spanish'"
-)
-```
+*Note*: Filtering options work the same as standard control structures
+in R, e.g., `"term == 'fall' & year == '2023'"`. Here is a full list of
+course options:
 
-Here is a full list of course options:
-
-- 940:101 Elementary Spanish I
-- 940:102 Elementary Spanish II
-- 940:121 Spanish Review and Continuation
-- 940:131 Intermediate Spanish
-- 940:132 Intermediate Spanish
-- 940:160 Spanish in the World
-- 940:201 Spanish for Heritage Speakers II
-- 940:202 Culture and Composition for Heritage Speakers
-- 940:203 Spanish Conversation and Composition
-- 940:204 Culture and Composition
-- 940:205 Spanish for the Health Professions
-- 940:206 Spanish for Business I
-- 940:215 Introduction to Hispanic Literature
-- 940:225 Spanish for the Health Professions II
-- 940:250 Sports in Latin America and the Caribbean
-- 940:261 Introduction to the Study of Language
-- 940:313 Advanced Spanish Conversation and Contemporary Issues
-- 940:325 Advanced Grammar and Composition
-- 940:326 Advanced Composition and Introduction to Translation Studies
-- 940:331 Literature & Culture of the Hispanic Culture
-- 940:332 Literature & Culture of the Hispanic Caribbean
-- 940:333 Power & Nation-Building in Spanish America
-- 940:334 Modernity and New Identities in Spanish America
-- 940:335 Literature & Culture of Spain
-- 940:336 Literature & Culture of Spain
-- 940:342 Women Writers of the Hispanic World
-- 940:346 Spanish Film
-- 940:348 Latin American Cinema
-- 940:353 Spanish for Community Engagement
-- 940:360 Spanish for Commerce
-- 940:362 Spanish Phonetics and Phonology
-- 940:363 Bilingualism in the Spanish-Speaking World
-- 940:364 Contrastive Analysis in Spanish and English
-- 940:366 Methods of Teaching Spanish K-12
-- 940:367 Sociolinguistics in the Spanish-Speaking World
-- 940:368 The Bilingual Mind
-- 940:389 Spanish Lab for Oral Proficiency I
-- 940:390 Topics in Hispanic Literature and Culture
-- 940:402 Intro to Translation of Specialized Texts
-- 940:403/4 Civilization of Spanish America
-- 940:405/6 Civilization of Spain
-- 940:419 Dialectology of the Spanish-Speaking World
-- 940:450 Spanish-American Theater
-- 940:462 Environment and Literature in Hispanic Culture
-- 940:471 Internship in Translation & Interpreting
-- 940:477 Court Interpreting
-- 940:479 Translation Media and Technology
-- 940:488 Topics in Spanish Linguistics
-- 940:489-492 Tpics in Hispanic Literature and Culture
-- 940:491 Civilization of Spanish America
-- 940:491/597 - Hispanic Women’s Voices
-- 940:493/494 Independent Study
-- 940:499 Oral Proficiency Interview
-- 940:589 Topics in Hispanic Linguistics
-- Graduate
+- span101
+- span102
+- span121
+- span131
+- span132
+- span160
+- span201
+- span202
+- span203
+- span204
+- span205
+- span206
+- span215
+- span225
+- span250
+- span261
+- span313
+- span325
+- span326
+- span331
+- span332
+- span333
+- span334
+- span335
+- span336
+- span342
+- span346
+- span348
+- span353
+- span360
+- span362
+- span363
+- span364
+- span366
+- span367
+- span368
+- span389
+- span390
+- span402
+- span403
+- span404
+- span405
+- span406
+- span419
+- span450
+- span462
+- span471
+- span477
+- span479
+- span488
+- span489
+- span490
+- span491
+- span492
+- span491
+- span491
+- span597
+- span493
+- span494
+- span499
+- span500
+- graduate
