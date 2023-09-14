@@ -16,7 +16,7 @@
 #' @import lubridate
 #' @importFrom janitor clean_names
 #' @importFrom rlang .data
-#' @importFrom stats time
+#' @importFrom stats time na.omit
 #' @importFrom utils download.file unzip
 #' @export
 
@@ -134,7 +134,15 @@ download_lextale_data <- function(
 
   # Load data_files_to_keep, subset if necessary, then move delete unwanted files
   hold <- read_csv(data_files_to_keep_tib$full_path) |>
-    clean_names()
+    clean_names() |>
+    group_by(.data$ruid) |>
+    mutate(
+      completion_code = unique(.data$completion_code) |>
+        na.omit() |>
+        unique()
+      ) |>
+    ungroup()
+
 
   # Apply filter if needed
   if (!is.null(apply_filter)) {
@@ -161,6 +169,7 @@ download_lextale_data <- function(
     ) |>
     select(
       .data$ruid:date,
+      .data$completion_code,
       .data$exp_name:.data$frame_rate,
       trial_n = .data$lextale_trial_loop_this_trial_n,
       word:.data$correct_response,

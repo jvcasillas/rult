@@ -1,7 +1,7 @@
 Package: rult
 Type: Package
 Title: A simple interface to RU lexTALE data
-Version: 0.1.0
+Version: 1.0
 Authors@R: 
     person(given = "Joseph V.",
            family = "Casillas",
